@@ -1,0 +1,51 @@
+[
+  {
+    "id": 1,
+    "firstName": "Juan",
+    "lastName": "Pérez",
+    "email": "juan.perez@ejemplo.com",
+    "phones": [
+      { "id": 1, "phoneNumber": "+1234567890", "label": "mobile" },
+      { "id": 2, "phoneNumber": "+1234567891", "label": "work" }
+    ]
+  },
+  {
+    "id": 2,
+    "firstName": "María",
+    "lastName": "López",
+    "email": "maria.lopez@ejemplo.com",
+    "phones": [
+      { "id": 3, "phoneNumber": "+0987654321", "label": "work" },
+      { "id": 4, "phoneNumber": "+1122334455", "label": "home" }
+    ]
+  },
+  {
+    "id": 3,
+    "firstName": "Carlos",
+    "lastName": "García",
+    "email": "carlos.garcia@ejemplo.com",
+    "phones": [
+      { "id": 5, "phoneNumber": "+5544332211", "label": "mobile" }
+    ]
+  },
+  {
+    "id": 4,
+    "firstName": "Ana",
+    "lastName": "Martínez",
+    "email": "ana.martinez@ejemplo.com",
+    "phones": [
+      { "id": 6, "phoneNumber": "+6677889900", "label": "home" },
+      { "id": 7, "phoneNumber": "+6677889901", "label": "mobile" },
+      { "id": 8, "phoneNumber": "+6677889902", "label": "work" }
+    ]
+  },
+  {
+    "id": 5,
+    "firstName": "Pedro",
+    "lastName": "Rodríguez",
+    "email": "pedro.rodriguez@ejemplo.com",
+    "phones": [
+      { "id": 9, "phoneNumber": "+3344556677", "label": "mobile" }
+    ]
+  }
+]
