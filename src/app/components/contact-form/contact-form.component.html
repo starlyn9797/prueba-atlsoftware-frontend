@@ -1,0 +1,48 @@
+<div class="form-container">
+  <h2>{{ isEditMode ? 'Editar' : 'Nuevo' }} Contacto</h2>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="field">
+      <label for="firstName">Nombre</label>
+      <input id="firstName" formControlName="firstName" placeholder="Nombre">
+      @if (showError('firstName')) {
+        <span class="error">Mínimo 2 caracteres</span>
+      }
+    </div>
+    <div class="field">
+      <label for="lastName">Apellido</label>
+      <input id="lastName" formControlName="lastName" placeholder="Apellido">
+      @if (showError('lastName')) {
+        <span class="error">Mínimo 2 caracteres</span>
+      }
+    </div>
+    <div class="field">
+      <label for="email">Email</label>
+      <input id="email" formControlName="email" placeholder="correo@ejemplo.com" type="email">
+      @if (showError('email')) {
+        <span class="error">Email inválido</span>
+      }
+    </div>
+
+    <div class="phones-section">
+      <div class="phones-header">
+        <label>Teléfonos</label>
+        <button type="button" class="btn-add-phone" (click)="addPhone()">+ Agregar</button>
+      </div>
+      @for (phone of phonesArray.controls; track $index) {
+        <app-phone-field
+          [phoneGroup]="asFormGroup(phone)"
+          [index]="$index"
+          (remove)="removePhone($event)"
+        />
+      }
+      @if (phonesArray.length === 0) {
+        <p class="no-phones">Sin teléfonos agregados</p>
+      }
+    </div>
+
+    <div class="actions">
+      <button type="button" class="btn-cancel" (click)="onCancel()">Cancelar</button>
+      <button type="submit" class="btn-save" [disabled]="form.invalid">Guardar</button>
+    </div>
+  </form>
+</div>

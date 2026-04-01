@@ -1,10 +1,17 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Contact } from '../models/contact.model';
+import { Contact, Phone } from '../models/contact.model';
 import { StorageService } from './storage.service';
 
 const STORAGE_KEY = 'contacts';
+
+type ContactInput = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phones: Omit<Phone, 'id'>[];
+};
 
 @Injectable({ providedIn: 'root' })
 export class ContactService {
@@ -31,16 +38,20 @@ export class ContactService {
     return this.contactsSubject.getValue().find(c => c.id === id);
   }
 
-  create(contact: Omit<Contact, 'id'>): void {
+  create(input: ContactInput): void {
     const contacts = this.contactsSubject.getValue();
     const maxId = contacts.reduce((max, c) => Math.max(max, c.id), 0);
-    const newContact: Contact = { ...contact, id: maxId + 1 };
+    const newContact: Contact = {
+      ...input,
+      id: maxId + 1,
+      phones: this.assignPhoneIds(input.phones)
+    };
     this.save([...contacts, newContact]);
   }
 
-  update(id: number, changes: Partial<Contact>): void {
+  update(id: number, changes: ContactInput): void {
     const contacts = this.contactsSubject.getValue().map(c =>
-      c.id === id ? { ...c, ...changes } : c
+      c.id === id ? { ...c, ...changes, phones: this.assignPhoneIds(changes.phones) } : c
     );
     this.save(contacts);
   }
@@ -48,6 +59,10 @@ export class ContactService {
   delete(id: number): void {
     const contacts = this.contactsSubject.getValue().filter(c => c.id !== id);
     this.save(contacts);
+  }
+
+  private assignPhoneIds(phones: Omit<Phone, 'id'>[]): Phone[] {
+    return phones.map((p, i) => ({ ...p, id: i + 1 }));
   }
 
   private save(contacts: Contact[]): void {

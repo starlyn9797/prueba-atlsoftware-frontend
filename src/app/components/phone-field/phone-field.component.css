@@ -1,0 +1,35 @@
+.phone-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+input {
+  flex: 1;
+}
+
+select {
+  width: 120px;
+}
+
+.btn-remove {
+  width: 34px;
+  height: 34px;
+  background: hsla(0, 70%, 55%, 0.15);
+  color: var(--danger);
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.btn-remove:hover {
+  background: hsla(0, 70%, 55%, 0.3);
+}
+
+.error {
+  color: var(--danger);
+  font-size: 0.75rem;
+  margin-top: 0.125rem;
+}

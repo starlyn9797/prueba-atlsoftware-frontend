@@ -1,0 +1,37 @@
+<div class="list-container">
+  <div class="header">
+    <h2>Contactos</h2>
+    <button class="btn-add" (click)="onCreate()">+ Nuevo Contacto</button>
+  </div>
+
+  <input
+    class="search"
+    placeholder="Buscar por nombre o email..."
+    [ngModel]="searchTerm"
+    (ngModelChange)="onSearch($event)"
+  >
+
+  @if (filteredContacts$ | async; as contacts) {
+    @if (contacts.length === 0) {
+      <p class="empty">No se encontraron contactos</p>
+    } @else {
+      <div class="grid">
+        @for (contact of contacts; track contact.id) {
+          <app-contact-card
+            [contact]="contact"
+            (edit)="onEdit($event)"
+            (delete)="onDeleteRequest($event)"
+          />
+        }
+      </div>
+    }
+  }
+</div>
+
+<app-confirm-dialog
+  [visible]="showDeleteDialog"
+  title="Eliminar Contacto"
+  message="¿Estás seguro de que deseas eliminar este contacto? Esta acción no se puede deshacer."
+  (confirm)="onDeleteConfirm()"
+  (cancel)="showDeleteDialog = false"
+/>

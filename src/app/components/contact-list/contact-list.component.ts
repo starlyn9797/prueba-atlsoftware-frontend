@@ -11,86 +11,8 @@ import { Observable, map, combineLatest, BehaviorSubject } from 'rxjs';
 @Component({
   selector: 'app-contact-list',
   imports: [AsyncPipe, FormsModule, ContactCardComponent, ConfirmDialogComponent],
-  template: `
-    <div class="list-container">
-      <div class="header">
-        <h2>Contactos</h2>
-        <button class="btn-add" (click)="onCreate()">+ Nuevo Contacto</button>
-      </div>
-
-      <input
-        class="search"
-        placeholder="Buscar por nombre o email..."
-        [ngModel]="searchTerm"
-        (ngModelChange)="onSearch($event)"
-      >
-
-      @if (filteredContacts$ | async; as contacts) {
-        @if (contacts.length === 0) {
-          <p class="empty">No se encontraron contactos</p>
-        } @else {
-          <div class="grid">
-            @for (contact of contacts; track contact.id) {
-              <app-contact-card
-                [contact]="contact"
-                (edit)="onEdit($event)"
-                (delete)="onDeleteRequest($event)"
-              />
-            }
-          </div>
-        }
-      }
-    </div>
-
-    <app-confirm-dialog
-      [visible]="showDeleteDialog"
-      title="Eliminar Contacto"
-      message="¿Estás seguro de que deseas eliminar este contacto? Esta acción no se puede deshacer."
-      (confirm)="onDeleteConfirm()"
-      (cancel)="showDeleteDialog = false"
-    />
-  `,
-  styles: `
-    .list-container {
-      animation: fadeIn 0.3s ease;
-    }
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.25rem;
-    }
-    h2 {
-      font-size: 1.25rem;
-      font-weight: 600;
-    }
-    .btn-add {
-      padding: 0.5rem 1.25rem;
-      background: var(--accent-gradient);
-      color: white;
-      border-radius: var(--radius-sm);
-      font-size: 0.875rem;
-      font-weight: 500;
-    }
-    .btn-add:hover {
-      opacity: 0.9;
-    }
-    .search {
-      width: 100%;
-      margin-bottom: 1.25rem;
-    }
-    .grid {
-      display: flex;
-      flex-direction: column;
-      gap: 0.625rem;
-    }
-    .empty {
-      text-align: center;
-      color: var(--text-muted);
-      padding: 3rem 0;
-      font-size: 0.875rem;
-    }
-  `
+  templateUrl: './contact-list.component.html',
+  styleUrl: './contact-list.component.css'
 })
 export class ContactListComponent implements OnInit {
   private readonly contactService = inject(ContactService);
@@ -99,7 +21,7 @@ export class ContactListComponent implements OnInit {
 
   searchTerm = '';
   showDeleteDialog = false;
-  private deleteTargetId = 0;
+  private deleteTargetId: number | null = null;
 
   filteredContacts$!: Observable<Contact[]>;
 
@@ -140,7 +62,9 @@ export class ContactListComponent implements OnInit {
   }
 
   onDeleteConfirm(): void {
+    if (this.deleteTargetId === null) return;
     this.contactService.delete(this.deleteTargetId);
     this.showDeleteDialog = false;
+    this.deleteTargetId = null;
   }
 }

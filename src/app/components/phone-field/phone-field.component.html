@@ -1,0 +1,12 @@
+<div class="phone-row" [formGroup]="phoneGroup()">
+  <input formControlName="phoneNumber" placeholder="+1234567890" type="tel">
+  <select formControlName="label">
+    @for (option of labels; track option.value) {
+      <option [value]="option.value">{{ option.text }}</option>
+    }
+  </select>
+  <button type="button" class="btn-remove" (click)="remove.emit(index())" title="Eliminar teléfono">✕</button>
+</div>
+@if (phoneGroup().get('phoneNumber')?.invalid && phoneGroup().get('phoneNumber')?.touched) {
+  <span class="error">Teléfono requerido</span>
+}

@@ -11,12 +11,4 @@ export class StorageService {
   set<T>(key: string, value: T): void {
     localStorage.setItem(key, JSON.stringify(value));
   }
-
-  remove(key: string): void {
-    localStorage.removeItem(key);
-  }
-
-  exists(key: string): boolean {
-    return localStorage.getItem(key) !== null;
-  }
 }

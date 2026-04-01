@@ -1,0 +1,18 @@
+<div class="card">
+  <div class="avatar">{{ initials() }}</div>
+  <div class="info">
+    <h3>{{ contact().firstName }} {{ contact().lastName }}</h3>
+    <p class="email">{{ contact().email }}</p>
+    <div class="phones">
+      @for (phone of contact().phones; track phone.id) {
+        <span class="phone-badge" [attr.data-label]="phone.label">
+          {{ labelIcon(phone.label) }} {{ phone.phoneNumber }}
+        </span>
+      }
+    </div>
+  </div>
+  <div class="actions">
+    <button class="btn-edit" (click)="edit.emit(contact().id)" title="Editar">✎</button>
+    <button class="btn-delete" (click)="delete.emit(contact().id)" title="Eliminar">🗑</button>
+  </div>
+</div>
